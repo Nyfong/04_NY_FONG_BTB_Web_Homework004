@@ -25,8 +25,8 @@ function App() {
                 <AddNewProjectComponent />
               </div>
               {/* show cards */}
-              <div className="grid grid-cols-3 gap-5">
-                <CardComponent />
+              <div>
+                <CardComponent percentage={100} />
               </div>
             </div>
             {/* left side dashboard */}
