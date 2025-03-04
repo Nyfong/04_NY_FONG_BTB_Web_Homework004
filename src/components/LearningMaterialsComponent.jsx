@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { CloudFog, Star } from "lucide-react";
+import { CloudFog, LucideStar, Star, StarIcon } from "lucide-react";
 import FilterComponent from "./FilterComponent";
 import { learningMaterials } from "../data/learningMaterials";
 import { useState } from "react";
@@ -7,30 +7,53 @@ export default function LearningMaterialsComponent() {
   const data = learningMaterials;
   console.log("this is the data from learni materials", data);
 
-  const [sortOrder, setSortOrder] = useState("");
-  //sort ACE
-  const sortACE = () => {
-    data.sort((a, b) => a.title.localeCompare(b.title));
+  // Initialize materials state with the learningMaterials data
+  const [materials, setMaterials] = useState(learningMaterials);
+
+  // Sort materials in ascending order
+  const sortAscending = () => {
+    const sorted = [...materials].sort((a, b) =>
+      a.title.localeCompare(b.title)
+    );
+    setMaterials(sorted);
   };
-  //sort DCE
-  const sortDCE = () => {
-    data.sort((a, b) => b.title.localeCompare(a.title));
+
+  // Sort materials in descending order
+  const sortDescending = () => {
+    const sorted = [...materials].sort((a, b) =>
+      b.title.localeCompare(a.title)
+    );
+    setMaterials(sorted);
   };
-  // Function to receive data from child
+
+  // Handle sorting order change from child component
   const handleSortChange = (selectedOrder) => {
-    setSortOrder(selectedOrder);
-    console.log("Selected Sorting Order:", selectedOrder);
-    selectedOrder = parseInt(selectedOrder);
-    console.log(selectedOrder);
+    const order = parseInt(selectedOrder, 10); // Convert to number
 
-    data =
-      selectedOrder % 2 == 1
-        ? sortACE()
-        : selectedOrder == 0
-        ? data
-        : sortDCE();
+    if (order === 1) {
+      sortAscending();
+    } else if (order === 2) {
+      sortDescending();
+    }
   };
 
+  // Handle starring/unstarring an item
+  const handleStar = (id) => {
+    const updatedMaterials = materials.map((item) =>
+      item.id === id ? { ...item, isFavorite: !item.isFavorite } : item
+    );
+    setMaterials(updatedMaterials); // Update the state immutably
+  };
+
+  //component
+  const FullStar = () => {
+    return (
+      <div>
+        {/* Render a fully filled yellow star using Unicode */}
+        <span className="text-2xl text-yellow-400">★</span>
+      </div>
+    );
+  };
   return (
     <div className="bg-white drop-shadow-lg rounded-2xl overflow-auto h-[80vh]">
       {/* calling filter component */}
@@ -41,14 +64,12 @@ export default function LearningMaterialsComponent() {
         <h2 className="text-xl font-semibold">Learning Materials</h2>
         <img src="/more.svg" alt="three dot" width={30} height={30} />
       </div>
-
       {/* materials list */}
-
-      {data.length == 0
+      {materials.length == 0
         ? "not found"
-        : data.map((el) => (
+        : materials.map((el, i) => (
             <div key={el.id} className="space-y-3">
-              <div className="bg-light-gray px-4 py-2 flex gap-5 items-center">
+              <div className="bg-light-gray px-4 py-2 flex gap-5 items-center my-3">
                 <img
                   src={
                     el?.image ??
@@ -62,11 +83,18 @@ export default function LearningMaterialsComponent() {
 
                 <div className="w-full">
                   <div className="flex justify-between">
+                    {/* title  */}
                     <p className="text-base font-medium">
                       {el?.title ?? "default title"}
                     </p>
-                    <Star size={20} />
+                    <button
+                      onClick={() => handleStar(el.id)}
+                      aria-label={el.isFavorite ? "Unfavorite" : "Favorite"}
+                    >
+                      {el.isFavorite ? <FullStar /> : <Star size={20} />}
+                    </button>
                   </div>
+                  {/* post at */}
                   <p className="text-gray-400 text-sm">
                     {el?.postedAt ?? "Posted at: 2025/01/13"}
                   </p>
