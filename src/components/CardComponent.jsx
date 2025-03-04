@@ -2,26 +2,57 @@ import { EllipsisVertical } from "lucide-react";
 import React from "react";
 
 export default function CardComponent({ percentage }) {
-  const widthAndBackground =
-    percentage == 25
-      ? "w-[25%] bg-custom-pink rounded-full  h-2.5 absolute top-0 "
-      : percentage == 50
-      ? "w-[50%] bg-custom-yellow-500 rounded-full  h-2.5 absolute top-0"
-      : percentage == 75
-      ? "w-[75%] bg-custom-carrot rounded-full  h-2.5 absolute top-0"
-      : percentage == 100
-      ? "w-[100%] bg-custom-sky-blue-500 rounded-full  h-2.5 absolute top-0"
-      : "";
-  const data = ["web", "java", "spring", "kdet"];
-
-  const dataSet = [25, 50, 100, 75];
-  console.log(dataSet.map((el) => typeof el));
-
+  const percentageMethod = (percentParams) => {
+    const percent =
+      percentParams == 25
+        ? "w-[25%] bg-custom-pink rounded-full  h-2.5 absolute top-0 "
+        : percentParams == 50
+        ? "w-[50%] bg-custom-yellow-500 rounded-full  h-2.5 absolute top-0"
+        : percentParams == 75
+        ? "w-[75%] bg-custom-carrot rounded-full  h-2.5 absolute top-0"
+        : percentParams == 100
+        ? "w-[100%] bg-custom-sky-blue-500 rounded-full  h-2.5 absolute top-0"
+        : "";
+    return percent;
+  };
+  //mockup
+  const setOfData = [
+    {
+      title: "Web Development",
+      date: "12-05-2025",
+      progress: 25,
+      desc: "Building a responsive website using modern frameworks.",
+    },
+    {
+      title: "Mobile App",
+      date: "15-08-2024",
+      progress: 50,
+      desc: "Developing a cross-platform mobile application with React Native.",
+    },
+    {
+      title: "AI Model Training",
+      date: "20-11-2024",
+      progress: 100,
+      desc: "Training a machine learning model for image classification.",
+    },
+    {
+      title: "Game Development",
+      date: "05-03-2025",
+      progress: 75,
+      desc: "Creating a 3D game using Unity and C# scripting.",
+    },
+    {
+      title: "Cloud Infrastructure",
+      date: "01-07-2024",
+      progress: 50,
+      desc: "Setting up scalable cloud infrastructure on AWS.",
+    },
+  ];
   return (
     <div className="grid grid-cols-3 gap-2">
-      {data.length === 0
+      {setOfData.length === 0
         ? "empty"
-        : data.map((el, i) => (
+        : setOfData.map((el, i) => (
             <>
               <div
                 key={i}
@@ -30,35 +61,28 @@ export default function CardComponent({ percentage }) {
                 <div className="flex justify-between mb-5">
                   {/* date */}
                   <p className={`text-custom-sky-blue font-medium`}>
-                    Jan 17, 2025
+                    {el.date ?? "Jan 17, 2025"}
                   </p>
                   <EllipsisVertical size={20} color="#374957" />
                 </div>
 
                 <h5 className="capitalize mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                  {el ?? "web design"}
+                  {el.title ?? "web design"}
                 </h5>
                 <p className="line-clamp-2 mb-3 font-normal text-justify text-gray-400 dark:text-gray-400">
-                  You should make web design pack with 30 different pose and
-                  with other component on the internet as well.
+                  {el.desc ??
+                    "You should make web design pack with 30 different pose and with other component on the internet as well."}
                 </p>
 
                 {/* progress bar */}
                 <div className="w-full flex justify-between font-medium mb-1">
                   <p>Progress</p>
-                  <p>{`${percentage}%` ?? "100%"}</p>
+                  <p>{`${el.progress}%` ?? "100%"}</p>
                 </div>
                 <div className="relative mb-5 w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                  <div className={widthAndBackground} title="25%"></div>
-
                   <div
-                    className="hidden border-l-4 rounded-full bg-custom-yellow-500 border-l-custom-yellow-500 h-2.5 absolute top-0 w-[50%]"
-                    title="50%"
-                  ></div>
-
-                  <div
-                    className="hidden border-l-4 rounded-full bg-custom-carrot border-l-custom-carrot h-2.5 absolute top-0 w-[75%]"
-                    title="75%"
+                    className={percentageMethod(el.progress)}
+                    title={el.progress}
                   ></div>
                 </div>
 
