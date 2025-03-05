@@ -63,6 +63,42 @@ export default function CardComponent({ searchValue }) {
       progress: 50,
       desc: "Setting up scalable cloud infrastructure on AWS.",
     },
+    {
+      title: "AI Model Training",
+      date: "20-11-2024",
+      progress: 100,
+      desc: "Training a machine learning model for image classification.",
+    },
+    {
+      title: "Game Development",
+      date: "05-03-2025",
+      progress: 75,
+      desc: "Creating a 3D game using Unity and C# scripting.",
+    },
+    {
+      title: "Cloud Infrastructure",
+      date: "01-07-2024",
+      progress: 50,
+      desc: "Setting up scalable cloud infrastructure on AWS.",
+    },
+    {
+      title: "Cloud Infrastructure",
+      date: "01-07-2024",
+      progress: 50,
+      desc: "Setting up scalable cloud infrastructure on AWS.",
+    },
+    {
+      title: "Cloud Infrastructure",
+      date: "01-07-2024",
+      progress: 50,
+      desc: "Setting up scalable cloud infrastructure on AWS.",
+    },
+    {
+      title: "Cloud Infrastructure",
+      date: "01-07-2024",
+      progress: 50,
+      desc: "Setting up scalable cloud infrastructure on AWS.",
+    },
   ];
   //searchValue
   console.log("from props", searchValue);
@@ -71,7 +107,7 @@ export default function CardComponent({ searchValue }) {
   );
 
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className="grid grid-cols-3 gap-2 pb-[400px]">
       {filteredData.length > 0
         ? filteredData.map((el, i) => (
             <>

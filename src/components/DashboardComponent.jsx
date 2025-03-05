@@ -6,7 +6,7 @@ export default function DashboardComponent() {
       <p className="font-bold text-2xl my-2">Dashboard</p>
 
       {/* display summary on each card */}
-      <div className="flex gap-5">
+      <div className="flex gap-2">
         {dashboard.length > 0
           ? dashboard.map((el) => (
               <div

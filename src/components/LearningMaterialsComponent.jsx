@@ -45,17 +45,8 @@ export default function LearningMaterialsComponent() {
     setMaterials(updatedMaterials); // Update the state immutably
   };
 
-  //component
-  const FullStar = () => {
-    return (
-      <div>
-        {/* Render a fully filled yellow star using Unicode */}
-        <span className="text-xl text-yellow-400">★</span>
-      </div>
-    );
-  };
   return (
-    <div className="bg-white drop-shadow-lg rounded-2xl overflow-auto h-[80vh]">
+    <div className="bg-white drop-shadow-lg rounded-2xl scrollbar-hidden  overflow-auto h-[85vh]">
       {/* calling filter component */}
       <FilterComponent onSortChange={handleSortChange} />
 
