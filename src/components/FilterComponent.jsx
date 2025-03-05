@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 
 export default function FilterComponent({ onSortChange }) {
-  //child
-
-  const [data, setData] = useState("");
-
   // prevent the page from reload
   const handleSubmit = (e) => {
     e.preventDefault();

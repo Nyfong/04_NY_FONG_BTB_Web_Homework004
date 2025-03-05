@@ -1,7 +1,7 @@
 import { Bell, Search } from "lucide-react";
 import React from "react";
 
-export default function TopNavbarComponent() {
+export default function TopNavbarComponent({ onSearch }) {
   // handle on form submit
   const handleSubmit = (e) => {
     // to prevent the page from reload
@@ -20,7 +20,8 @@ export default function TopNavbarComponent() {
         <input
           type="text"
           placeholder="Search assignment here"
-          className="w-full bg-white py-3 pl-14 pr-5 rounded-xl h-12 border-none focus:border-none focus:ring-0 focus:outline-custom-sky-blue"
+          className="w-full bg-white py-3 pl-14 pr-5  rounded-xl h-12 border-none focus:border-none focus:ring-0 focus:outline-custom-sky-blue"
+          onChange={(e) => onSearch(e.target.value)}
         />
       </form>
 
@@ -32,7 +33,7 @@ export default function TopNavbarComponent() {
       </div>
 
       {/* profile image */}
-      <div className="h-16 rounded-xl bg-white py-2.5 px-3 flex gap-3 items-start">
+      <div className="h-16 rounded-xl bg-white py-2.5 px-3 flex gap-3 items-start ">
         <img
           src="https://i.pinimg.com/736x/39/2a/50/392a5042102c7d7e4ed87527a2d7e74a.jpg"
           alt="profile image"

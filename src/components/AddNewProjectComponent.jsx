@@ -1,7 +1,11 @@
 import { Plus } from "lucide-react";
 import React from "react";
 
-export default function AddNewProjectComponent() {
+export default function AddNewProjectComponent({ onTitle, submitCard }) {
+  // prevent the page from reload
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
   return (
     <div>
       <button
@@ -63,6 +67,7 @@ export default function AddNewProjectComponent() {
                     id="projectName"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Type Project Name"
+                    onChange={(e) => onTitle(e.target.value)}
                   />
                 </div>
 
@@ -117,6 +122,8 @@ export default function AddNewProjectComponent() {
               <div className="text-right">
                 <button
                   type="submit"
+                  onSubmit={handleSubmit}
+                  onCl
                   className="text-white inline-flex items-center bg-custom-sky-blue hover:bg-custom-sky-blue-500 focus:ring-4 focus:outline-none focus:ring-custom-sky-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-custom-sky-blue-500 dark:hover:bg-custom-sky-blue-500 dark:focus:ring-custom-sky-blue-500"
                 >
                   Create

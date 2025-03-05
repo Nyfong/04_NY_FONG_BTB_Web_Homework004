@@ -1,7 +1,28 @@
 import { EllipsisVertical } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 
-export default function CardComponent({ percentage }) {
+export default function CardComponent({ searchValue }) {
+  const [cards, setCard] = useState([]);
+  const [cardTitle, setTitle] = useState("");
+  const [cardDate, setDate] = useState("");
+  const [cardProgress, setProgress] = useState("");
+  const [cardDesc, setDesc] = useState("");
+  //handle addCard
+  function addCard() {
+    const newCard = {
+      title: cardTitle,
+      date: cardDate,
+      progress: cardProgress,
+      decs: cardDesc,
+    };
+    setCard((cards) => [...cards, newCard]);
+    setTitle("");
+    setDate("");
+    setProgress("");
+    setDesc("");
+    console.log("SomeCard", cards);
+  }
+  //method for percentage
   const percentageMethod = (percentParams) => {
     const percent =
       percentParams == 25
@@ -23,12 +44,7 @@ export default function CardComponent({ percentage }) {
       progress: 25,
       desc: "Building a responsive website using modern frameworks.",
     },
-    {
-      title: "Mobile App",
-      date: "15-08-2024",
-      progress: 50,
-      desc: "Developing a cross-platform mobile application with React Native.",
-    },
+
     {
       title: "AI Model Training",
       date: "20-11-2024",
@@ -48,10 +64,58 @@ export default function CardComponent({ percentage }) {
       desc: "Setting up scalable cloud infrastructure on AWS.",
     },
   ];
+  //searchValue
+  console.log("from props", searchValue);
+  const filteredData = setOfData.filter((item) =>
+    item.title.toLowerCase().includes(searchValue.trim().toLowerCase())
+  );
+
   return (
     <div className="grid grid-cols-3 gap-2">
-      {setOfData.length === 0
-        ? "empty"
+      {filteredData.length > 0
+        ? filteredData.map((el, i) => (
+            <>
+              <div
+                key={i}
+                className="max-w-sm p-6 bg-white rounded-2xl shadow-sm dark:bg-gray-800 dark:border-gray-700"
+              >
+                <div className="flex justify-between mb-5">
+                  {/* date */}
+                  <p className={`text-custom-sky-blue font-medium`}>
+                    {el.date ?? "Jan 17, 2025"}
+                  </p>
+                  <EllipsisVertical size={20} color="#374957" />
+                </div>
+
+                <h5 className="capitalize mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                  {el.title ?? "web design"}
+                </h5>
+                <p className="line-clamp-2 mb-3 font-normal text-justify text-gray-400 dark:text-gray-400">
+                  {el.desc ??
+                    "You should make web design pack with 30 different pose and with other component on the internet as well."}
+                </p>
+
+                {/* progress bar */}
+                <div className="w-full flex justify-between font-medium mb-1">
+                  <p>Progress</p>
+                  <p>{`${el.progress}%` ?? "100%"}</p>
+                </div>
+                <div className="relative mb-5 w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                  <div
+                    className={percentageMethod(el.progress)}
+                    title={el.progress}
+                  ></div>
+                </div>
+
+                {/* deadline */}
+                <div className="flex justify-end">
+                  <p className="font-medium bg-light-gray py-1.5 px-4 rounded-lg max-w-28 text-center">
+                    1 day left
+                  </p>
+                </div>
+              </div>
+            </>
+          ))
         : setOfData.map((el, i) => (
             <>
               <div

@@ -3,7 +3,7 @@ import { dashboard } from "../data/dashboard";
 export default function DashboardComponent() {
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-5 pl-5">Dashboard </h2>
+      <p className="font-bold text-2xl my-2">Dashboard</p>
 
       {/* display summary on each card */}
       <div className="flex gap-5">

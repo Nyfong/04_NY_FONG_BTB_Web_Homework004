@@ -50,7 +50,7 @@ export default function LearningMaterialsComponent() {
     return (
       <div>
         {/* Render a fully filled yellow star using Unicode */}
-        <span className="text-2xl text-yellow-400">★</span>
+        <span className="text-xl text-yellow-400">★</span>
       </div>
     );
   };
@@ -91,7 +91,11 @@ export default function LearningMaterialsComponent() {
                       onClick={() => handleStar(el.id)}
                       aria-label={el.isFavorite ? "Unfavorite" : "Favorite"}
                     >
-                      {el.isFavorite ? <FullStar /> : <Star size={20} />}
+                      {el.isFavorite ? (
+                        <StarIcon size={20} fill="yellow" color="yellow" />
+                      ) : (
+                        <Star size={20} />
+                      )}
                     </button>
                   </div>
                   {/* post at */}
