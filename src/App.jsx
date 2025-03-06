@@ -9,11 +9,18 @@ import LearningMaterialsComponent from "./components/LearningMaterialsComponent"
 import CardComponent from "./components/CardComponent";
 
 function App() {
+  const [dataFromChild, setDataFromChild] = useState({});
   const [searchValue, setSearchValue] = useState("");
+
+  function handleDataFromChild(data) {
+    setDataFromChild(data);
+  }
+
   const getSearch = (value) => {
-    console.log("value from the search:", value);
     setSearchValue(value);
   };
+  console.log(dataFromChild);
+
   return (
     <>
       <main className="grid grid-cols-12 box-border h-screen overflow-hidden  ">
@@ -29,11 +36,14 @@ function App() {
               {/* add card */}
               <div className="flex items-center justify-between py-2 ">
                 <p className="font-bold text-2xl">Assignments</p>
-                <AddNewProjectComponent />
+                <AddNewProjectComponent onSubmitCard={handleDataFromChild} />
               </div>
               {/* show cards */}
               <div className="h-screen scrollbar-hidden  overflow-y-scroll py-2 box-border">
-                <CardComponent searchValue={searchValue} />
+                <CardComponent
+                  searchValue={searchValue}
+                  newdata={dataFromChild}
+                />
               </div>
             </div>
             {/* left side dashboard */}

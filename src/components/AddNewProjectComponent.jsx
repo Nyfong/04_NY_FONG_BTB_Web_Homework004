@@ -1,11 +1,74 @@
 import { Plus } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 
-export default function AddNewProjectComponent({ onTitle, submitCard }) {
-  // prevent the page from reload
+export default function AddNewProjectComponent({ onSubmitCard }) {
+  const [cardTitle, setCardTitle] = useState("");
+  const [cardDate, setCardDate] = useState("");
+  const [cardProgress, setCardProgress] = useState("");
+  const [cardDec, setCardDec] = useState("");
+  const [cardObj, setCardObj] = useState({});
+  // Error States
+  const [error, setError] = useState("");
+  const [errorProgress, setErrorProgress] = useState("");
+  const [errorDateValidate, setErrorDateValidate] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    let hasError = false;
+
+    if (!cardTitle.trim()) {
+      setError("Project name is required");
+      hasError = true;
+    } else {
+      setError("");
+    }
+
+    if (!cardProgress.toString().trim()) {
+      setErrorProgress("Progress is required");
+      hasError = true;
+    } else {
+      setErrorProgress("");
+    }
+
+    if (!validatePastDate()) {
+      hasError = true;
+    }
+
+    if (hasError) return;
+
+    // If validation passes, submit the data
+    console.log("Project Title:", cardTitle);
+    console.log("Project Progress:", cardProgress);
+    console.log("Project Description:", cardDec);
+    console.log("Project Date:", cardDate);
+    onSubmitCard({
+      title: cardTitle,
+      date: cardDate,
+      progress: cardProgress,
+      desc: cardDec,
+    });
   };
+
+  const validatePastDate = () => {
+    if (!cardDate) {
+      setErrorDateValidate("Date is required");
+      return false;
+    }
+
+    const selectedDate = new Date(cardDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalize today's date
+
+    if (selectedDate < today) {
+      setErrorDateValidate("You cannot enter a past date");
+      return false;
+    }
+
+    setErrorDateValidate(""); // Clear error if valid
+    return true;
+  };
+
   return (
     <div>
       <button
@@ -52,7 +115,7 @@ export default function AddNewProjectComponent({ onTitle, submitCard }) {
                 <span className="sr-only">Close modal</span>
               </button>
             </div>
-            <form className="p-4 md:p-5">
+            <form className="p-4 md:p-5" onSubmit={handleSubmit}>
               <div className="grid gap-4 mb-4 grid-cols-2">
                 <div className="col-span-2">
                   <label
@@ -65,10 +128,19 @@ export default function AddNewProjectComponent({ onTitle, submitCard }) {
                     type="text"
                     name="projectName"
                     id="projectName"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    value={cardTitle}
+                    className={`bg-gray-50 border ${
+                      error ? "border-red-500" : "border-gray-300"
+                    } text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500`}
                     placeholder="Type Project Name"
-                    onChange={(e) => onTitle(e.target.value)}
+                    onChange={(e) => {
+                      setCardTitle(e.target.value);
+                      setError(""); // Clear error when user starts typing
+                    }}
                   />
+                  {error && (
+                    <p className="text-red-500 text-sm mt-1">{error}</p>
+                  )}
                 </div>
 
                 <div className="col-span-2">
@@ -83,7 +155,13 @@ export default function AddNewProjectComponent({ onTitle, submitCard }) {
                     name="dueDate"
                     id="dueDate"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    onChange={(e) => {
+                      setCardDate(e.target.value);
+                    }}
                   />
+                  {errorDateValidate && (
+                    <p className="text-red-500">{errorDateValidate}</p>
+                  )}
                 </div>
 
                 <div className="col-span-2">
@@ -95,7 +173,14 @@ export default function AddNewProjectComponent({ onTitle, submitCard }) {
                   </label>
                   <select
                     id="progress"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    // className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    className={`bg-gray-50 border ${
+                      error ? "border-red-500" : "border-gray-300"
+                    } text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500`}
+                    onChange={(e) => {
+                      setCardProgress(e.target.value);
+                      setErrorProgress(""); // Clear error when user starts typing
+                    }}
                   >
                     <option defaultValue="">Select Progress</option>
                     <option value="100">100</option>
@@ -103,6 +188,9 @@ export default function AddNewProjectComponent({ onTitle, submitCard }) {
                     <option value="50">50</option>
                     <option value="25">25</option>
                   </select>
+                  {errorProgress && (
+                    <p className="text-red-500">{errorProgress}</p>
+                  )}
                 </div>
                 <div className="col-span-2">
                   <label
@@ -116,6 +204,9 @@ export default function AddNewProjectComponent({ onTitle, submitCard }) {
                     rows="4"
                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Write product description here"
+                    onChange={(e) => {
+                      setCardDec(e.target.value);
+                    }}
                   ></textarea>
                 </div>
               </div>

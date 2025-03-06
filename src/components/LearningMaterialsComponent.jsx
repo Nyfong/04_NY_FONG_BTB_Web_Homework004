@@ -5,7 +5,6 @@ import { learningMaterials } from "../data/learningMaterials";
 import { useState } from "react";
 export default function LearningMaterialsComponent() {
   const data = learningMaterials;
-  console.log("this is the data from learni materials", data);
 
   // Initialize materials state with the learningMaterials data
   const [materials, setMaterials] = useState(learningMaterials);
@@ -43,6 +42,16 @@ export default function LearningMaterialsComponent() {
       item.id === id ? { ...item, isFavorite: !item.isFavorite } : item
     );
     setMaterials(updatedMaterials); // Update the state immutably
+  };
+
+  //  creatre funtion
+  const convertNumToStr = (param) => {
+    const date = new Date(param);
+    const dateTimeFormatter = new Intl.DateTimeFormat("en-US", {
+      dateStyle: "long",
+    });
+    const formatDate = dateTimeFormatter.format(date);
+    return formatDate;
   };
 
   return (
@@ -90,8 +99,10 @@ export default function LearningMaterialsComponent() {
                     </button>
                   </div>
                   {/* post at */}
+
                   <p className="text-gray-400 text-sm">
-                    {el?.postedAt ?? "Posted at: 2025/01/13"}
+                    {/* Posted at:{el?.postedAt ?? "Posted at: 2025/01/13"} */}
+                    {convertNumToStr(el.postedAt)}
                   </p>
                 </div>
               </div>
