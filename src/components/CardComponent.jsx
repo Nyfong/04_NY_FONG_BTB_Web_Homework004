@@ -70,7 +70,7 @@ export default function CardComponent({ searchValue, newdata }) {
   // Convert DD-MM-YYYY to a readable date format
   const convertNumToStr = (param) => {
     const [year, month, day] = param.split("-");
-    const date = new Date(`${month}/${day}/${year}`); // Change format to MM/DD/YYYY
+    const date = new Date(`${month}/${day}/${year}`); // Change  to MM/DD/YYYY
     return new Intl.DateTimeFormat("en-US", {
       month: "long",
       day: "numeric",
