@@ -80,19 +80,26 @@ export default function CardComponent({ searchValue, newdata }) {
 
   // Calculate days left from today to the given date in "YYYY-MM-DD" format
   const daysLeft = (dateStr) => {
-    const targetDate = new Date(dateStr); // No need to rearrange, "YYYY-MM-DD" works directly
-    const diffDays = Math.ceil((targetDate - new Date()) / 86400000); // Calculate difference in days
+    const targetDate = new Date(dateStr);
+    const currentDate = new Date();
 
-    return diffDays > 0
-      ? `${diffDays} day(s) left`
-      : diffDays === 0
-      ? "Today is the day!"
-      : "The date has passed";
+    // Calculate difference in days
+    const diffDays = Math.ceil((targetDate - currentDate) / 86400000);
+
+    if (diffDays === 0) return "Today is the day!";
+    if (diffDays < 0) return "The date has passed";
+
+    // Convert to weeks, months, and years
+    const weeks = Math.floor(diffDays / 7);
+    const months = Math.floor(diffDays / 30);
+    const years = Math.floor(diffDays / 365);
+
+    if (years > 0) return `${years} year(s) left`;
+    if (months > 0) return `${months} month(s) left`;
+    if (weeks > 0) return `${weeks} week(s) left`;
+
+    return `${diffDays} day(s) left`;
   };
-
-  // Example usage:
-  const dateInput = "2025-03-07";
-  console.log(`Countdown: ${daysLeft(dateInput)}`);
 
   return (
     <div className="grid grid-cols-3 gap-2 pb-[400px]">
